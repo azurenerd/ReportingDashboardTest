@@ -1,0 +1,30 @@
+@page "/"
+@inject DashboardDataService DataService
+
+@if (_error is not null)
+{
+    <div style="display:flex;align-items:center;justify-content:center;width:1920px;height:1080px;font-family:'Segoe UI',Arial,sans-serif;">
+        <div style="text-align:center;max-width:600px;">
+            <h1 style="font-size:24px;color:#991B1B;margin-bottom:16px;">Dashboard Configuration Error</h1>
+            <p style="font-size:14px;color:#333;line-height:1.6;">@_error</p>
+        </div>
+    </div>
+}
+else if (_data is not null)
+{
+    <HeaderBar Title="@_data.Title" Subtitle="@_data.Subtitle" BacklogUrl="@_data.BacklogUrl" CurrentMonth="@_data.CurrentMonth" />
+    <TimelineSection Milestones="@_data.Milestones" Months="@_data.Months" NowLinePosition="@_data.NowLinePosition" />
+    <HeatmapGrid Categories="@_data.Categories" Months="@_data.Months" CurrentMonth="@_data.CurrentMonth" />
+}
+
+@code {
+    private DashboardData? _data;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await DataService.LoadAsync();
+        _data = result.Data;
+        _error = result.Error;
+    }
+}

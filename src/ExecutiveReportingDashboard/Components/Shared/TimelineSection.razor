@@ -1,0 +1,79 @@
+<div class="tl-area">
+    <div style="width:230px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-around;padding:16px 12px 16px 0;border-right:1px solid #E0E0E0;">
+        @foreach (var m in Milestones)
+        {
+            <div style="font-size:12px;font-weight:600;line-height:1.4;">
+                <span style="color:@m.Color;">@m.Id</span><br/>
+                <span style="font-weight:400;color:#444;">@m.Label</span>
+            </div>
+        }
+    </div>
+    <div class="tl-svg-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1560" height="185" style="overflow:visible;display:block;">
+            <defs>
+                <filter id="sh">
+                    <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity="0.3"/>
+                </filter>
+            </defs>
+
+            @{
+                var monthSpacing = Months.Count > 0 ? 1560.0 / Months.Count : 260.0;
+            }
+
+            @for (int i = 0; i < Months.Count; i++)
+            {
+                var x = i * monthSpacing;
+                <line x1="@F(x)" y1="0" x2="@F(x)" y2="185" stroke="#bbb" stroke-opacity="0.4" stroke-width="1"/>
+                @((MarkupString)$"<text x=\"{F(x + 5)}\" y=\"14\" fill=\"#666\" font-size=\"11\" font-weight=\"600\" font-family=\"Segoe UI,Arial\">{Months[i]}</text>")
+            }
+
+            @{
+                var nowX = NowLinePosition * 1560.0;
+            }
+            <line x1="@F(nowX)" y1="0" x2="@F(nowX)" y2="185" stroke="#EA4335" stroke-width="2" stroke-dasharray="5,3"/>
+            @((MarkupString)$"<text x=\"{F(nowX + 4)}\" y=\"14\" fill=\"#EA4335\" font-size=\"10\" font-weight=\"700\" font-family=\"Segoe UI,Arial\">NOW</text>")
+
+            @for (int mi = 0; mi < Milestones.Count; mi++)
+            {
+                var milestone = Milestones[mi];
+                var y = 42.0 + (mi * 56.0);
+                <line x1="0" y1="@F(y)" x2="1560" y2="@F(y)" stroke="@milestone.Color" stroke-width="3"/>
+
+                @foreach (var evt in milestone.Events)
+                {
+                    var cx = evt.Position * 1560.0;
+                    @if (evt.Type == "checkpoint")
+                    {
+                        <circle cx="@F(cx)" cy="@F(y)" r="7" fill="white" stroke="@milestone.Color" stroke-width="2.5"/>
+                    }
+                    else if (evt.Type == "poc")
+                    {
+                        <polygon points="@DiamondPoints(cx, y, 11)" fill="#F4B400" filter="url(#sh)"/>
+                    }
+                    else if (evt.Type == "production")
+                    {
+                        <polygon points="@DiamondPoints(cx, y, 11)" fill="#34A853" filter="url(#sh)"/>
+                    }
+
+                    @if (!string.IsNullOrEmpty(evt.Label))
+                    {
+                        @((MarkupString)$"<text x=\"{F(cx)}\" y=\"{F(y - 16)}\" text-anchor=\"middle\" fill=\"#666\" font-size=\"10\" font-family=\"Segoe UI,Arial\">{System.Net.WebUtility.HtmlEncode(evt.Label)}</text>")
+                    }
+                }
+            }
+        </svg>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<Milestone> Milestones { get; set; } = new();
+    [Parameter] public List<string> Months { get; set; } = new();
+    [Parameter] public double NowLinePosition { get; set; }
+
+    private string F(double value) => value.ToString("F1", System.Globalization.CultureInfo.InvariantCulture);
+
+    private string DiamondPoints(double cx, double cy, double size)
+    {
+        return $"{F(cx)},{F(cy - size)} {F(cx + size)},{F(cy)} {F(cx)},{F(cy + size)} {F(cx - size)},{F(cy)}";
+    }
+}
