@@ -1,0 +1,80 @@
+{
+  "title": "Project Phoenix Release Roadmap",
+  "subtitle": "Engineering Platform · Cloud Migration Workstream · March 2026",
+  "backlogUrl": "https://dev.azure.com/example/phoenix/_backlogs",
+  "currentMonth": "Mar",
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  "nowLinePosition": 0.39,
+  "milestones": [
+    {
+      "id": "M1",
+      "label": "Auth Service v2",
+      "color": "#0078D4",
+      "events": [
+        { "date": "2026-01-15", "position": 0.083, "type": "checkpoint", "label": "Jan 15" },
+        { "date": "2026-03-01", "position": 0.333, "type": "poc", "label": "Mar 1 PoC" },
+        { "date": "2026-05-15", "position": 0.75, "type": "production", "label": "May 15 Prod" }
+      ]
+    },
+    {
+      "id": "M2",
+      "label": "Data Pipeline",
+      "color": "#00897B",
+      "events": [
+        { "date": "2026-02-01", "position": 0.172, "type": "checkpoint", "label": "Feb 1" },
+        { "date": "2026-04-01", "position": 0.5, "type": "poc", "label": "Apr 1 PoC" },
+        { "date": "2026-06-01", "position": 0.833, "type": "production", "label": "Jun 1 Prod" }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "name": "✓ Shipped",
+      "colorClass": "ship",
+      "items": {
+        "Jan": ["OAuth2 token refresh", "Logging framework"],
+        "Feb": ["Rate limiter module", "Config service v2"],
+        "Mar": ["API gateway routing"],
+        "Apr": [],
+        "May": [],
+        "Jun": []
+      }
+    },
+    {
+      "name": "● In Progress",
+      "colorClass": "prog",
+      "items": {
+        "Jan": ["Auth service scaffold"],
+        "Feb": ["Identity provider integration"],
+        "Mar": ["Load testing framework", "Schema migration tool"],
+        "Apr": ["Pipeline orchestrator"],
+        "May": ["Production rollout prep"],
+        "Jun": []
+      }
+    },
+    {
+      "name": "↩ Carryover",
+      "colorClass": "carry",
+      "items": {
+        "Jan": [],
+        "Feb": ["Legacy API deprecation"],
+        "Mar": ["Legacy API deprecation (from Feb)"],
+        "Apr": [],
+        "May": [],
+        "Jun": []
+      }
+    },
+    {
+      "name": "⚠ Blockers",
+      "colorClass": "block",
+      "items": {
+        "Jan": [],
+        "Feb": [],
+        "Mar": ["Vendor SDK license renewal"],
+        "Apr": [],
+        "May": [],
+        "Jun": []
+      }
+    }
+  ]
+}

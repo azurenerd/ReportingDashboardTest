@@ -1,0 +1,27 @@
+<div class="hdr">
+    <div>
+        <h1>@Title @if (!string.IsNullOrEmpty(BacklogUrl)) { <a href="@BacklogUrl" target="_blank">⧉ ADO Backlog</a> }</h1>
+        <div class="sub">@Subtitle</div>
+    </div>
+    <div style="display:flex;gap:22px;align-items:center;">
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+            <span style="width:12px;height:12px;background:#F4B400;transform:rotate(45deg);display:inline-block;flex-shrink:0;"></span>PoC Milestone
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+            <span style="width:12px;height:12px;background:#34A853;transform:rotate(45deg);display:inline-block;flex-shrink:0;"></span>Production Release
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;flex-shrink:0;"></span>Checkpoint
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;">
+            <span style="width:2px;height:14px;background:#EA4335;display:inline-block;flex-shrink:0;"></span>Now (@CurrentMonth 2026)
+        </span>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Subtitle { get; set; } = "";
+    [Parameter] public string BacklogUrl { get; set; } = "";
+    [Parameter] public string CurrentMonth { get; set; } = "";
+}

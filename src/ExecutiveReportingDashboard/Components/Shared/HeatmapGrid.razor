@@ -1,0 +1,40 @@
+<div class="hm-wrap">
+    <div class="hm-title">Monthly Execution Heatmap &mdash; Shipped &middot; In Progress &middot; Carryover &middot; Blockers</div>
+    <div class="hm-grid" style="grid-template-columns: 160px repeat(@Months.Count, 1fr); grid-template-rows: 36px repeat(@Categories.Count, 1fr);">
+        <div class="hm-corner">Status</div>
+        @foreach (var month in Months)
+        {
+            var isNow = string.Equals(month, CurrentMonth, StringComparison.OrdinalIgnoreCase);
+            <div class="hm-col-hdr @(isNow ? "apr-hdr" : "")">@month@(isNow ? " ◂ Now" : "")</div>
+        }
+
+        @foreach (var cat in Categories)
+        {
+            <div class="hm-row-hdr @(cat.ColorClass)-hdr">@cat.Name</div>
+            @foreach (var month in Months)
+            {
+                var isNow = string.Equals(month, CurrentMonth, StringComparison.OrdinalIgnoreCase);
+                var items = cat.Items.TryGetValue(month, out var list) ? list : new List<string>();
+                <div class="hm-cell @(cat.ColorClass)-cell@(isNow ? " apr" : "")">
+                    @if (items.Count == 0)
+                    {
+                        <span style="color:#AAA;">&ndash;</span>
+                    }
+                    else
+                    {
+                        @foreach (var item in items)
+                        {
+                            <div class="it">@item</div>
+                        }
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<Category> Categories { get; set; } = new();
+    [Parameter] public List<string> Months { get; set; } = new();
+    [Parameter] public string CurrentMonth { get; set; } = "";
+}
